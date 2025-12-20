@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowRight, Calendar, Clock, Play } from 'lucide-react';
-
+import enevt1 from '@/assets/event1.jpg';
+import enevt2 from '@/assets/event2.jpg';
+import enevt3 from '@/assets/event3.jpeg';
+import enevt4 from '@/assets/event4.jpeg';
+import enevt5 from '@/assets/event5.jpeg';
 const blogPosts = [
   {
     id: 1,
@@ -10,6 +14,7 @@ const blogPosts = [
     readTime: '5 min',
     category: 'Insights',
     gradient: 'from-primary/80 to-accent/60',
+    image: enevt1, 
   },
   {
     id: 2,
@@ -32,11 +37,12 @@ const blogPosts = [
 ];
 
 const galleryImages = [
-  { id: 1, event: 'Demo Day 2024', date: 'Nov 2024', size: 'large' },
-  { id: 2, event: 'Founder Mixer', date: 'Oct 2024', size: 'small' },
-  { id: 3, event: 'Tech Talk Series', date: 'Oct 2024', size: 'small' },
-  { id: 4, event: 'Investor Summit', date: 'Sep 2024', size: 'medium' },
-  { id: 5, event: 'Workshop Week', date: 'Sep 2024', size: 'medium' },
+  
+   { id: 1, src: enevt1, event: 'Demo Day 2024', date: 'Nov 2024', size: 'large' },
+  { id: 2, src: enevt2, event: 'Founder Mixer', date: 'Oct 2024', size: 'small' },
+  { id: 3, src: enevt3, event: 'Tech Talk Series', date: 'Oct 2024', size: 'small' },
+  { id: 4, src: enevt4, event: 'Investor Summit', date: 'Sep 2024', size: 'medium' },
+  { id: 5, src: enevt5, event: 'Workshop Week', date: 'Sep 2024', size: 'medium' },
 ];
 
 export default function EcosystemSection() {
@@ -222,35 +228,54 @@ export default function EcosystemSection() {
                   onMouseLeave={() => setHoveredImage(null)}
                 >
                   {/* Gradient placeholder with animated shine */}
-                  <div className={`absolute inset-0 transition-all duration-500 ${
-                    index % 3 === 0 ? 'bg-gradient-to-br from-primary/40 to-accent/40' :
-                    index % 3 === 1 ? 'bg-gradient-to-br from-accent/40 to-amber-500/40' :
-                    'bg-gradient-to-br from-primary/30 to-primary/50'
-                  } ${hoveredImage === img.id ? 'scale-110' : 'scale-100'}`} />
-                  
-                  {/* Shine effect */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
-                  
-                  {/* Overlay on hover */}
-                  <div className={`absolute inset-0 bg-foreground/80 flex flex-col items-center justify-center p-4 text-center transition-all duration-300 ${
-                    hoveredImage === img.id ? 'opacity-100' : 'opacity-0'
-                  }`}>
-                    <p className="text-white font-bold text-sm md:text-base mb-1">
-                      {img.event}
-                    </p>
-                    <p className="text-white/70 text-xs">
-                      {img.date}
-                    </p>
-                  </div>
-                  
-                  {/* Default state */}
-                  <div className={`absolute inset-0 flex items-end p-3 transition-opacity duration-300 ${
-                    hoveredImage === img.id ? 'opacity-0' : 'opacity-100'
-                  }`}>
-                    <div className="bg-card/90 backdrop-blur-sm px-3 py-1.5 rounded-lg">
-                      <p className="text-xs font-medium text-foreground">{img.event}</p>
-                    </div>
-                  </div>
+                   <div
+  className={`absolute inset-0 transition-all duration-500 ${
+    index % 3 === 0
+      ? 'bg-gradient-to-br from-primary/40 to-accent/40'
+      : index % 3 === 1
+      ? 'bg-gradient-to-br from-accent/40 to-amber-500/40'
+      : 'bg-gradient-to-br from-primary/30 to-primary/50'
+  }`}
+/>
+
+{/* ✅ IMAGE (یہی main چیز missing تھی) */}
+<img
+  src={img.src}
+  alt={img.event}
+  className={`absolute inset-0 w-full h-full object-cover transition-transform duration-500 ${
+    hoveredImage === img.id ? 'scale-110' : 'scale-100'
+  }`}
+/>
+
+{/* Shine effect */}
+<div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+
+{/* Overlay on hover */}
+<div
+  className={`absolute inset-0 bg-foreground/80 flex flex-col items-center justify-center p-4 text-center transition-all duration-300 ${
+    hoveredImage === img.id ? 'opacity-100' : 'opacity-0'
+  }`}
+>
+  <p className="text-white font-bold text-sm md:text-base mb-1">
+    {img.event}
+  </p>
+  <p className="text-white/70 text-xs">
+    {img.date}
+  </p>
+</div>
+
+{/* Default state */}
+<div
+  className={`absolute inset-0 flex items-end p-3 transition-opacity duration-300 ${
+    hoveredImage === img.id ? 'opacity-0' : 'opacity-100'
+  }`}
+>
+  <div className="bg-card/90 backdrop-blur-sm px-3 py-1.5 rounded-lg">
+    <p className="text-xs font-medium text-foreground">
+      {img.event}
+    </p>
+  </div>
+</div>
                 </div>
               ))}
             </div>

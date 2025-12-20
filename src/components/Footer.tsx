@@ -1,7 +1,7 @@
 import { Mail, MapPin, Linkedin, Twitter, Instagram, Youtube } from 'lucide-react';
 import hub47Logo from '@/assets/hub47-logo.png';
 import padLogo from '@/assets/pad-logo.png';
-
+import { Link } from "react-router-dom";
 const footerLinks = {
   programs: [
     { label: 'Startup Cohort', href: '/cohort' },
@@ -14,6 +14,7 @@ const footerLinks = {
     { label: 'Members', href: '/members' },
     { label: 'Events', href: '/events' },
     { label: 'Gallery', href: '/gallery' },
+     { label: 'Contact', href: '/contact' },
   ],
   resources: [
     { label: 'Blog', href: '/blog' },
@@ -32,18 +33,18 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-neutral-900 text-neutral-100">
+    <footer className="bg-neutral-900-custom text-neutral-100">
       <div className="container-hub py-16">
         <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-12">
           {/* Brand column */}
           <div className="lg:col-span-2">
             <img src={hub47Logo} alt="Hub47" className="h-10 w-auto mb-6 brightness-0 invert" />
-            <p className="text-neutral-400 text-body mb-6 max-w-sm">
+            <p className="text-neutral-400-cus text-body mb-6 max-w-sm">
               HUB47 is the pioneering incubator for Pakistani startups in the UAE, helping founders scale in the dynamic Gulf market.
             </p>
             
             {/* Contact info */}
-            <div className="space-y-3 text-sm text-neutral-400">
+            <div className="space-y-3 text-sm text-neutral-400-cus">
               <a href="mailto:info@hub47.ae" className="flex items-center gap-2 hover:text-primary transition-colors">
                 <Mail className="w-4 h-4" />
                 info@hub47.ae
@@ -77,7 +78,7 @@ export default function Footer() {
             <ul className="space-y-3">
               {footerLinks.programs.map(({ label, href }) => (
                 <li key={label}>
-                  <a href={href} className="text-neutral-400 hover:text-primary transition-colors text-sm">
+                  <a href={href} className="text-neutral-400-cus hover:text-primary transition-colors text-sm">
                     {label}
                   </a>
                 </li>
@@ -90,7 +91,7 @@ export default function Footer() {
             <ul className="space-y-3">
               {footerLinks.community.map(({ label, href }) => (
                 <li key={label}>
-                  <a href={href} className="text-neutral-400 hover:text-primary transition-colors text-sm">
+                  <a href={href} className="text-neutral-400-cus hover:text-primary transition-colors text-sm">
                     {label}
                   </a>
                 </li>
@@ -103,7 +104,7 @@ export default function Footer() {
             <ul className="space-y-3">
               {footerLinks.resources.map(({ label, href }) => (
                 <li key={label}>
-                  <a href={href} className="text-neutral-400 hover:text-primary transition-colors text-sm">
+                  <a href={href} className="text-neutral-400-cus hover:text-primary transition-colors text-sm">
                     {label}
                   </a>
                 </li>
@@ -121,7 +122,7 @@ export default function Footer() {
             </a>
           </div>
           
-          <div className="flex items-center gap-6 text-sm text-neutral-500">
+          <div className="flex items-center gap-6 text-sm text-neutral-400-cus">
             <a href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</a>
             <a href="/terms" className="hover:text-primary transition-colors">Terms of Service</a>
             <span>© {new Date().getFullYear()} HUB47. All rights reserved.</span>

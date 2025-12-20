@@ -528,3 +528,16 @@
     padding: 15px;
     border-radius: 15px;
 }
+ 
+@layer components {
+  .inputFancy {
+    @apply w-full px-4 py-3 border rounded-xl text-sm
+    focus:outline-none focus:ring-2 focus:ring-primary
+    bg-white/90;
+  }
+}
+
+
+.bg-neutral-900-custom {
+  background-color: rgb(42 182 229 / 66%);
+}

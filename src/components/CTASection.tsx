@@ -78,7 +78,7 @@ export default function CTASection() {
                 isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
             >
-              <a href="/apply" className="btn-primary group">
+              <a href="/eligibility" className="btn-primary group">
                 Register Startup
                 <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </a>

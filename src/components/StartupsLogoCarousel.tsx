@@ -72,31 +72,17 @@ export default function StartupsLogoCarousel() {
               style={{ transitionDelay: `${(index % startups.length) * 50}ms` }}
             >
               {/* --------------- BIGGER BOX HERE --------------- */}
-              <div className="w-40 h-40 rounded-2xl bg-white border border-border/50 
-                flex flex-col items-center justify-center gap-3 transition-all duration-300 
-                group-hover:shadow-lg group-hover:border-primary/30 group-hover:scale-105"
-              >
-
-                {/* --------------- BIGGER IMAGE HERE --------------- */}
-                {startup.image ? (
-                  <img
-                    src={startup.image}
-                    alt={startup.name}
-                    className="w-24 h-24 object-contain grayscale group-hover:grayscale-0 transition-all duration-300"
-                  />
-                ) : (
-                  <div className="w-24 h-24 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center transition-all duration-300 grayscale group-hover:grayscale-0">
-                    <span className="text-2xl font-bold text-foreground/70 group-hover:text-primary transition-colors">
-                      {startup.initials}
-                    </span>
-                  </div>
-                )}
-
-                {/* Startup Name */}
-                <span className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors truncate max-w-[90%]">
-                  {startup.name}
-                </span>
-              </div>
+               <div className="w-48 h-36 rounded-2xl bg-white border border-border/50
+  flex flex-col items-center justify-center transition-all duration-300
+  group-hover:shadow-lg group-hover:border-primary/30 group-hover:scale-105"
+>
+  <img
+    src={startup.image}
+    alt={startup.name}
+    className="w-28 h-28 object-contain grayscale 
+    group-hover:grayscale-0 transition-all duration-300"
+  />
+</div>
             </div>
           ))}
         </div>

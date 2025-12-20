@@ -10,7 +10,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import enevt1 from '@/assets/event1.jpg';
 import enevt2 from '@/assets/event2.jpg';
-import enevt3 from '@/assets/event3.jpg';
+import enevt3 from '@/assets/event3.jpeg';
+import enevt4 from '@/assets/event4.jpeg';
+import enevt5 from '@/assets/event5.jpeg';
 import {
   Select,
   SelectContent,
@@ -107,17 +109,13 @@ const mockEventData = {
     {
       id: 1,
       name: "Pakistan Association Dubai",
-      logo: "https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&q=80",
+      logo: "http://localhost:8080/src/assets/pad-logo.png",
     },
-    {
-      id: 2,
-      name: "Pakistan Medical Center",
-      logo: "https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&q=80",
-    },
+     
     {
       id: 3,
       name: "HUB47",
-      logo: "https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&q=80",
+      logo: "https://hub47.ae/Content/website/assets/images/black-logo.png",
     },
   ],
   agenda: [
@@ -261,52 +259,52 @@ const EventDetails = () => {
                 <span className="text-sm font-medium">{event.category}</span>
               </div>
 
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-background-cus mb-6 leading-tight">
                 {event.title}
               </h1>
 
-              <p className="text-white/70 text-lg mb-8 leading-relaxed">
+              <p className="text-background-custom text-lg mb-8 leading-relaxed">
                 {event.description}
               </p>
 
               {/* Event Meta */}
               <div className="grid grid-cols-2 gap-4 mb-8">
-                <div className="flex items-center gap-3 text-white/80">
+                <div className="flex items-center gap-3 text-background-cus">
                   <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center">
                     <Calendar className="w-5 h-5 text-primary" />
                   </div>
                   <div>
-                    <p className="text-xs text-white/50 uppercase tracking-wide">Date</p>
+                    <p className="text-xs text-background-cus uppercase tracking-wide">Date</p>
                     <p className="text-sm font-medium">{event.startDate}{event.endDate ? ` - ${event.endDate}` : ""}</p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3 text-white/80">
+                <div className="flex items-center gap-3 text-background-cus">
                   <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center">
                     <Clock className="w-5 h-5 text-primary" />
                   </div>
                   <div>
-                    <p className="text-xs text-white/50 uppercase tracking-wide">Time</p>
+                    <p className="text-xs text-background-cus uppercase tracking-wide">Time</p>
                     <p className="text-sm font-medium">{event.startTime} - {event.endTime}</p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3 text-white/80">
+                <div className="flex items-center gap-3 text-background-cus">
                   <div className="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center">
                     <MapPin className="w-5 h-5 text-accent" />
                   </div>
                   <div>
-                    <p className="text-xs text-white/50 uppercase tracking-wide">Location</p>
+                    <p className="text-xs text-background-cus uppercase tracking-wide">Location</p>
                     <p className="text-sm font-medium">{event.location}</p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3 text-white/80">
+                <div className="flex items-center gap-3 text-background-cus">
                   <div className="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center">
                     <DollarSign className="w-5 h-5 text-accent" />
                   </div>
                   <div>
-                    <p className="text-xs text-white/50 uppercase tracking-wide">Cost</p>
+                    <p className="text-xs text-background-cus uppercase tracking-wide">Cost</p>
                     <p className="text-sm font-medium">{event.cost}</p>
                   </div>
                 </div>

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowRight, Rocket, Heart, Crown, Sparkles, Check } from 'lucide-react';
-
+import { Link } from "react-router-dom";
+ 
 const ctaCards = [
   {
     id: 'startups',
@@ -10,7 +11,7 @@ const ctaCards = [
     description: 'Join our accelerator with mentorship, investor access, and workspace credits.',
     benefits: ['Weekly mentor clinics', 'Investor showcase', '$50k+ partner credits'],
     cta: 'Register Startup',
-    ctaHref: '/apply',
+    ctaHref: '/startup',
     note: '5 min application',
     gradient: 'from-primary to-primary/70',
     accentColor: 'primary',
@@ -68,7 +69,6 @@ export default function JoinHubCTA() {
       const sectionTop = rect.top;
       const sectionHeight = rect.height;
       
-      // Calculate progress from 0 to 1 as section moves through viewport
       const progress = Math.max(0, Math.min(1, 
         (windowHeight - sectionTop) / (windowHeight + sectionHeight)
       ));
@@ -87,16 +87,16 @@ export default function JoinHubCTA() {
   return (
     <section ref={sectionRef} className="py-16 md:py-24 relative overflow-hidden">
       {/* Animated gradient mesh background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-accent/5" />
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-accent/5 pointer-events-none" />
       <div 
-        className="absolute inset-0 opacity-30"
+        className="absolute inset-0 opacity-30 pointer-events-none"
         style={{
           background: `radial-gradient(ellipse at ${30 + scrollProgress * 40}% ${20 + scrollProgress * 30}%, hsl(var(--primary) / 0.15) 0%, transparent 50%),
                        radial-gradient(ellipse at ${70 - scrollProgress * 40}% ${80 - scrollProgress * 30}%, hsl(var(--accent) / 0.15) 0%, transparent 50%)`,
         }}
       />
       
-      {/* Large decorative text with morph effect */}
+      {/* Large decorative text */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
         <span 
           className="text-display text-foreground/[0.03] select-none transition-all duration-700"
@@ -110,13 +110,13 @@ export default function JoinHubCTA() {
       </div>
       
       {/* Floating decorative shapes */}
-      <div className="absolute top-20 left-[10%] w-4 h-4 rounded-full bg-primary/30 animate-float-bob" />
-      <div className="absolute top-40 right-[15%] w-6 h-6 rounded-full bg-accent/30 animate-float-bob" style={{ animationDelay: '1s' }} />
-      <div className="absolute bottom-32 left-[20%] w-3 h-3 rounded-full bg-amber-500/30 animate-float-bob" style={{ animationDelay: '2s' }} />
-      <div className="absolute bottom-20 right-[25%] w-5 h-5 rounded-full bg-primary/20 animate-float-bob" style={{ animationDelay: '0.5s' }} />
+      <div className="absolute top-20 left-[10%] w-4 h-4 rounded-full bg-primary/30 animate-float-bob pointer-events-none" />
+      <div className="absolute top-40 right-[15%] w-6 h-6 rounded-full bg-accent/30 animate-float-bob pointer-events-none" style={{ animationDelay: '1s' }} />
+      <div className="absolute bottom-32 left-[20%] w-3 h-3 rounded-full bg-amber-500/30 animate-float-bob pointer-events-none" style={{ animationDelay: '2s' }} />
+      <div className="absolute bottom-20 right-[25%] w-5 h-5 rounded-full bg-primary/20 animate-float-bob pointer-events-none" style={{ animationDelay: '0.5s' }} />
       
       <div className="container-hub relative z-10">
-        {/* Header with morph */}
+        {/* Header */}
         <div 
           className={`text-center mb-14 transition-all duration-700 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
@@ -135,7 +135,7 @@ export default function JoinHubCTA() {
           </p>
         </div>
         
-        {/* 3 Horizontal CTA Cards */}
+        {/* CTA Cards */}
         <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {ctaCards.map((card, index) => {
             const Icon = card.icon;
@@ -154,19 +154,17 @@ export default function JoinHubCTA() {
                 }}
               >
                 {/* Glow effect */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${card.gradient} rounded-3xl blur-2xl opacity-0 group-hover:opacity-20 transition-opacity duration-500`} />
+                <div className={`absolute inset-0 bg-gradient-to-br ${card.gradient} rounded-3xl blur-2xl opacity-0 group-hover:opacity-20 transition-opacity duration-500 pointer-events-none`} />
                 
-                {/* Card */}
-                <div className="relative h-full p-6 md:p-8 bg-card rounded-3xl border border-border/50 shadow-xl overflow-hidden group-hover:shadow-2xl group-hover:-translate-y-2 transition-all duration-500">
-                  {/* Animated gradient border on hover */}
+                {/* Card content */}
+                <div className="relative z-10 h-full p-6 md:p-8 bg-card rounded-3xl border border-border/50 shadow-xl overflow-hidden group-hover:shadow-2xl group-hover:-translate-y-2 transition-all duration-500">
                   <div 
-                    className={`absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
+                    className={`absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`}
                     style={{
                       background: `linear-gradient(135deg, hsl(var(--${card.accentColor === 'amber' ? 'primary' : card.accentColor}) / 0.2), transparent 60%)`,
                     }}
                   />
                   
-                  {/* Icon with bob animation */}
                   <div 
                     className={`w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br ${card.gradient} flex items-center justify-center mb-5 shadow-lg group-hover:scale-110 transition-transform duration-300`}
                     style={{
@@ -184,11 +182,8 @@ export default function JoinHubCTA() {
                     {card.subtitle}
                   </p>
                   <h3 className="text-xl md:text-2xl font-bold text-foreground mb-3">{card.title}</h3>
-                  <p className="text-sm text-muted-foreground mb-5">
-                    {card.description}
-                  </p>
+                  <p className="text-sm text-muted-foreground mb-5">{card.description}</p>
                   
-                  {/* Benefits */}
                   <ul className="space-y-2 mb-6">
                     {card.benefits.map((benefit, i) => (
                       <li key={i} className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -202,16 +197,13 @@ export default function JoinHubCTA() {
                     ))}
                   </ul>
                   
-                  <a 
-                    href={card.ctaHref} 
+                  <a href={card.ctaHref}
                     className={`w-full inline-flex items-center justify-center px-5 py-3 rounded-xl font-semibold text-white transition-all duration-300 group/btn bg-gradient-to-r ${card.gradient} hover:shadow-lg hover:-translate-y-0.5`}
                   >
                     {card.cta}
                     <ArrowRight className="ml-2 w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
                   </a>
-                  <p className="text-center text-xs text-muted-foreground mt-3">
-                    {card.note}
-                  </p>
+                  <p className="text-center text-xs text-muted-foreground mt-3">{card.note}</p>
                 </div>
               </div>
             );
