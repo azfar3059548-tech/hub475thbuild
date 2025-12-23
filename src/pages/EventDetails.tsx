@@ -113,7 +113,7 @@ const mockEventData = {
     {
       id: 1,
       name: "Pakistan Association Dubai",
-      logo: "http://localhost:8080/src/assets/pad-logo.png",
+      logo: "https://hub47.ae/Content/website/assets/images/home/PAD-LOGO.png",
     },
      
     {
@@ -570,7 +570,7 @@ const EventDetails = () => {
                   transition={{ delay: index * 0.1 }}
                   className="bg-card rounded-xl p-6 border border-border hover:border-primary/30 transition-all duration-300 hover:shadow-lg"
                 >
-                  <div className="w-32 h-32 rounded-lg overflow-hidden bg-muted flex items-center justify-center">
+                  <div className="w-35 h-32 rounded-lg overflow-hidden bg-muted flex items-center justify-center">
                     <img
                       src={sponsor.logo}
                       alt={sponsor.name}

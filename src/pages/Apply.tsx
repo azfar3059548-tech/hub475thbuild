@@ -407,7 +407,7 @@ export default function Apply() {
                     Phone Number *
                   </FormLabel>
                   <FormControl>
-                    <Input placeholder="+971 XX XXX XXXX" {...field} />
+                    <Input placeholder="+971 042305000" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

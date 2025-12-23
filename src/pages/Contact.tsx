@@ -118,7 +118,7 @@ console.log(data)
 
             <div className="mt-8 space-y-4">
               <InfoItem icon={<Mail />} title="Email" value="info@hub47.ae" />
-              <InfoItem icon={<Phone />} title="Phone" value="+971 XX XXX XXXX" />
+              <InfoItem icon={<Phone />} title="Phone" value="+971 042305000" />
               <InfoItem
                 icon={<MapPin />}
                 title="Location"
