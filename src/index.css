@@ -521,7 +521,7 @@
  
 .via-\[hsl\(215\2c 40\%\2c 15\%\)\] {
     --tw-gradient-to: #fff var(--tw-gradient-to-position);
-    --tw-gradient-stops: hsl(215deg 19.85% 71.69%), #fff var(--tw-gradient-via-position), var(--tw-gradient-to);
+    --tw-gradient-stops: hsl(0, 0%, 100%), #fff var(--tw-gradient-via-position), var(--tw-gradient-to);
 }
 .ext-bg-bottom {
     background: #2ab6e5;
@@ -541,3 +541,12 @@
 .bg-neutral-900-custom {
   background-color: rgb(42 182 229 / 66%);
 }
+
+.text-neutral-400-cus{
+  color: #fff;
+}
+/* .via-\[hsl\(215\2c 40\%\2c 15\%\)\] {
+    --tw-gradient-to: #fff var(--tw-gradient-to-position);
+    --tw-gradient-stops: hsl(0deg 0% 100%), #fff var(--tw-gradient-via-position)
+, var(--tw-gradient-to);
+} */

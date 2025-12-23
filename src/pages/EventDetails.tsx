@@ -13,6 +13,10 @@ import enevt2 from '@/assets/event2.jpg';
 import enevt3 from '@/assets/event3.jpeg';
 import enevt4 from '@/assets/event4.jpeg';
 import enevt5 from '@/assets/event5.jpeg';
+import enevt6 from '@/assets/events12.jpeg';
+import enevt7 from '@/assets/Application Process-1st.png';
+import enevt8 from '@/assets/Invest-in-incubated-Startups.png';
+
 import {
   Select,
   SelectContent,
@@ -71,7 +75,7 @@ const mockEventData = {
   language: "English",
   mode: "Online",
   cost: "Free",
-  image: enevt1, 
+  image: enevt8, 
   description: "An ideal customer profile (ICP) is a detailed description of your most valuable customers, including their demographics, firmographics and psychographics. Customer demographics are population-defining statistics like age, race, gender or marital status.",
   tags: ["ICP", "Customer Profile", "Buyer Profile", "Customer Mapping"],
   speakers: [

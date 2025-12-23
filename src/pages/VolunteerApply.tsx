@@ -4,6 +4,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { addVolunteer } from "@/services/volunteerApi";
+
+
+
+
 import {
   Heart,
   User,
@@ -306,13 +311,64 @@ export default function VolunteerApply() {
     }
   };
 
-  const onSubmit = async (data: FormValues) => {
+  // const onSubmit = async (data: FormValues) => {
+  //   setIsSubmitting(true);
+  //   await new Promise(resolve => setTimeout(resolve, 2000));
+  //   console.log('Volunteer Form submitted:', data);
+  //   setIsSubmitting(false);
+  //   setShowSuccess(true);
+  // };
+   
+    const onSubmit = async (data) => {
+  try {
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    console.log('Volunteer Form submitted:', data);
-    setIsSubmitting(false);
+
+    
+
+    const payload = {
+      ID: 0,
+      Status: "Pending",
+
+      Name: data.fullName,
+      Email: data.email,
+      PhoneNo: data.phone,
+      Dateofbirth: data.dateOfBirth,
+      Currentcity: data.currentLocation,
+      CurrentRole: data.occupation,
+      Education: data.education,
+      Linkinprofilelink: data.linkedinUrl || "",
+      AreaofInterest: data.areaOfInterest,
+      Volunteeringexperience: data.previousExperience || "",
+      Availability: data.availability,
+      TimePeriodVolunteering: data.timePeriod,
+      StartDateAvailability: data.startDate,
+      Skills: data.skills,
+      LanguageSpoken: data.languages,
+      ReasonforWantingtoVolunteer: data.reasonForVolunteering,
+      HopetoGain: data.expectations,
+      Considerations: data.specialRequirements || "",
+      Reference1: data.reference1,
+      Reference2: data.reference2 || "",
+      EID: data.emiratesIdNumber || "",
+    };
+
+    console.log("SUBMIT PAYLOAD:", payload);
+ 
+    const response = await addVolunteer(payload);
+
+    console.log("SUCCESS:", response);
     setShowSuccess(true);
-  };
+    form.reset();
+
+  } catch (error) {
+    console.error("API ERROR FULL:", error?.response?.data || error);
+    alert("Backend error — console check کریں");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+
+
 
   const StepIndicator = () => (
     <div className="hidden md:flex items-center justify-center gap-2 mb-8">

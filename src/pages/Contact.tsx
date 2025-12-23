@@ -51,16 +51,18 @@ export default function Contact() {
     };
 
     try {
-      const res = await fetch("https://api.example.com/contact", {
+      const res = await fetch("https://hub47webservices.raideit.net/api/Hub47/addContact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(payload),
       });
-
+console.log(res)
+const data = await res.json();
+console.log(data)
       if (res.ok) {
-        alert("test");
+        alert("Submit Successfully");
         setFormData({
           name: "",
           email: "",
@@ -69,7 +71,7 @@ export default function Contact() {
           notes: "",
         });
       } else {
-        alert("test");
+        alert("error");
       }
     } catch (error) {
       alert("test");

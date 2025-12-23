@@ -12,8 +12,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import enevt1 from '@/assets/event1.jpg';
 import enevt2 from '@/assets/event2.jpg';
 import enevt4 from '@/assets/event4.jpeg';
-import enevt3 from '@/assets/event3..jpeg';
-
+import enevt3 from '@/assets/event3.jpeg';
+import enevt12 from '@/assets/events12.jpeg';
 import {
   Select,
   SelectContent,

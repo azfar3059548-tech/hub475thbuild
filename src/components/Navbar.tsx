@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Menu, X, ChevronDown, CheckCircle, FileEdit, Heart, Users, Calendar, Image, BookOpen, Mic, Sparkles, CreditCard } from 'lucide-react';
 import hub47Logo from '@/assets/hub47-logo.png';
 import padLogo from '@/assets/pad-logo.png';
-import { Link } from "react-router-dom";
+ 
 const navItems = [
   { label: 'Home', href: '/' },
   {
