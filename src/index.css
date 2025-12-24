@@ -539,14 +539,26 @@
 
 
 .bg-neutral-900-custom {
-  background-color: rgb(42 182 229 / 66%);
+  background-color: #ECF8FE ;
 }
 
 .text-neutral-400-cus{
-  color: #fff;
+  color: #534b4b;
 }
+
+.text-neutral-100 {
+    --tw-text-opacity: 1;
+    color: #534b4b;
+}
+
 /* .via-\[hsl\(215\2c 40\%\2c 15\%\)\] {
     --tw-gradient-to: #fff var(--tw-gradient-to-position);
     --tw-gradient-stops: hsl(0deg 0% 100%), #fff var(--tw-gradient-via-position)
 , var(--tw-gradient-to);
 } */
+
+
+.bg-neutral-800 {
+ 
+    background-color: rgb(214 214 214);
+}

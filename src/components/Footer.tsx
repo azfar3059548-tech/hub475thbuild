@@ -38,7 +38,7 @@ export default function Footer() {
         <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-12">
           {/* Brand column */}
           <div className="lg:col-span-2">
-            <img src={hub47Logo} alt="Hub47" className="h-10 w-auto mb-6 brightness-0 invert" />
+            <img src={hub47Logo} alt="Hub47" className="h-10 w-auto mb-6" />
             <p className="text-neutral-400-cus text-body mb-6 max-w-sm">
               HUB47 is the pioneering incubator for Pakistani startups in the UAE, helping founders scale in the dynamic Gulf market.
             </p>
@@ -118,7 +118,7 @@ export default function Footer() {
           <div className="flex items-center gap-4">
             <span className="text-sm text-neutral-500">Powered by</span>
             <a href="https://padubai.com" target="_blank" rel="noopener noreferrer">
-              <img src={padLogo} alt="Pakistan Association Dubai" className="h-8 w-auto brightness-0 invert opacity-60 hover:opacity-100 transition-opacity" />
+              <img src={padLogo} alt="Pakistan Association Dubai" className="h-8 w-auto opacity-60 hover:opacity-100 transition-opacity" />
             </a>
           </div>
           
