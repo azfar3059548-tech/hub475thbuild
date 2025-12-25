@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { addVolunteer } from "@/services/volunteerApi";
+import { addVolunteer, uploadVolunteerFile } from "@/services/volunteerApi";
 
 
 
@@ -319,54 +319,103 @@ export default function VolunteerApply() {
   //   setShowSuccess(true);
   // };
    
-    const onSubmit = async (data) => {
-  try {
-    setIsSubmitting(true);
-
-    
-
-    const payload = {
-      ID: 0,
-      Status: "Pending",
-
-      Name: data.fullName,
-      Email: data.email,
-      PhoneNo: data.phone,
-      Dateofbirth: data.dateOfBirth,
-      Currentcity: data.currentLocation,
-      CurrentRole: data.occupation,
-      Education: data.education,
-      Linkinprofilelink: data.linkedinUrl || "",
-      AreaofInterest: data.areaOfInterest,
-      Volunteeringexperience: data.previousExperience || "",
-      Availability: data.availability,
-      TimePeriodVolunteering: data.timePeriod,
-      StartDateAvailability: data.startDate,
-      Skills: data.skills,
-      LanguageSpoken: data.languages,
-      ReasonforWantingtoVolunteer: data.reasonForVolunteering,
-      HopetoGain: data.expectations,
-      Considerations: data.specialRequirements || "",
-      Reference1: data.reference1,
-      Reference2: data.reference2 || "",
-      EID: data.emiratesIdNumber || "",
-    };
-
-    console.log("SUBMIT PAYLOAD:", payload);
- 
-    const response = await addVolunteer(payload);
-
-    console.log("SUCCESS:", response);
-    setShowSuccess(true);
-    form.reset();
-
-  } catch (error) {
-    console.error("API ERROR FULL:", error?.response?.data || error);
-    alert("Backend error — console check کریں");
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+  const onSubmit = async (data) => {
+    try {
+      setIsSubmitting(true);
+  
+      // 🔹 STEP 1: Create Volunteer (JSON only)
+      const payload = {
+        ID: 0,
+        Status: "Pending",
+  
+        Name: data.fullName,
+        Email: data.email,
+        PhoneNo: data.phone,
+        Dateofbirth: data.dateOfBirth,
+        Currentcity: data.currentLocation,
+        CurrentRole: data.occupation,
+        Education: data.education,
+        Linkinprofilelink: data.linkedinUrl || "",
+        AreaofInterest: data.areaOfInterest,
+        Volunteeringexperience: data.previousExperience || "",
+        Availability: data.availability,
+        TimePeriodVolunteering: data.timePeriod,
+        StartDateAvailability: data.startDate,
+        Skills: data.skills,
+        LanguageSpoken: data.languages,
+        ReasonforWantingtoVolunteer: data.reasonForVolunteering,
+        HopetoGain: data.expectations,
+        Considerations: data.specialRequirements || "",
+        Reference1: data.reference1,
+        Reference2: data.reference2 || "",
+        EID: data.emiratesIdNumber || "",
+      };
+  
+      console.log("SUBMIT PAYLOAD:", payload);
+  
+      const response = await addVolunteer(payload);
+      console.log("response",response)
+  
+      // ⚠️ CONFIRM THIS KEY FROM BACKEND
+      const volunteerId = response?.Id
+      if (!volunteerId) {
+        throw new Error("Volunteer ID not returned from API");
+      }
+  
+      console.log("Volunteeer ID",volunteerId,profilePicture)
+      // 🔹 STEP 2: Upload Files (multipart)
+      const uploadPromises = [];
+  
+      if (profilePicture?.file) {
+        uploadPromises.push(
+          uploadVolunteerFile({
+            volunteerId,
+            file: profilePicture.file,
+            // profile image → NO fileSubtype
+            fileSubtype: "profileimage",
+          })
+        );
+      }
+  
+      if (emiratesIdFront?.file) {
+        uploadPromises.push(
+          uploadVolunteerFile({
+            volunteerId,
+            file: emiratesIdFront.file,
+            fileSubtype: "eidfrontimage",
+          })
+        );
+      }
+  
+      if (emiratesIdBack?.file) {
+        uploadPromises.push(
+          uploadVolunteerFile({
+            volunteerId,
+            file: emiratesIdBack.file,
+            fileSubtype: "eidbackimage",
+          })
+        );
+      }
+  
+     
+  
+      // Upload all files in parallel
+      if (uploadPromises.length > 0) {
+        await Promise.all(uploadPromises);
+      }
+  
+      console.log("SUCCESS: Volunteer + files uploaded");
+      setShowSuccess(true);
+      form.reset();
+  
+    } catch (error) {
+      console.error("API ERROR FULL:", error?.response?.data || error);
+      alert("Backend error — console check کریں");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+  
 
 
 
