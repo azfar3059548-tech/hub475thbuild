@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Helmet } from "react-helmet-async";
@@ -50,55 +50,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { addEvent, getEvent } from "@/services/eventApi";
 
 // Mock Events Data
-const events = [
-  {
-    id: 1,
-    title: "What Is Ideal Customer Profile (ICP)?",
-    category: "Workshop",
-    date: "04 Jan 2026",
-    endDate: "10 Jan 2026",
-    time: "09:00 AM - 11:30 PM",
-    location: "Pakistan Association Dubai",
-    level: "Advanced Level",
-    language: "English",
-    mode: "Online",
-    cost: "Free",
-     image: enevt1, 
-    description: "Learn how to identify and target your ideal customer profile for maximum business growth.",
-  },
-  {
-    id: 2,
-    title: "Startup Pitch Night - UAE Edition",
-    category: "Networking",
-    date: "18 Jan 2026",
-    endDate: null,
-    time: "06:00 PM - 09:00 PM",
-    location: "HUB47 Innovation Center",
-    level: "All Levels",
-    language: "English",
-    mode: "In-Person",
-    cost: "Free",
-     image: enevt2, 
-    description: "Present your startup idea to investors and get valuable feedback from industry experts.",
-  },
-  {
-    id: 3,
-    title: "AI & Machine Learning Bootcamp",
-    category: "Bootcamp",
-    date: "25 Feb 2026",
-    endDate: "27 Feb 2026",
-    time: "10:00 AM - 05:00 PM",
-    location: "Dubai Tech Hub",
-    level: "Intermediate",
-    language: "English",
-    mode: "Hybrid",
-    cost: "AED 500",
-     image: enevt4, 
-    description: "A 3-day intensive bootcamp covering AI fundamentals, ML algorithms, and practical applications.",
-  },
-];
+
 
 // Form Schema
 const registrationSchema = z.object({
@@ -137,6 +92,18 @@ const EventsCalendar = () => {
   const [selectedEvent, setSelectedEvent] = useState<typeof events[0] | null>(null);
   const [isRegistrationOpen, setIsRegistrationOpen] = useState(false);
   const [showThankYou, setShowThankYou] = useState(false);
+  const [events, setEvents] = useState([]);
+
+  useEffect(()=>{
+    const callEvents = async()=>{
+      const res = await getEvent();
+      if(!!res.length)
+      {
+        setEvents(res)
+      }
+    }
+callEvents()
+  },[])
 
   const form = useForm<RegistrationFormData>({
     resolver: zodResolver(registrationSchema),
@@ -151,16 +118,45 @@ const EventsCalendar = () => {
     },
   });
 
+
+  const mapRegistrationFormToPayload = (
+    values: RegistrationFormData,
+    eventId: number
+  ) => ({
+    Name: values.fullName,
+    eventid: eventId,
+    Organization: values.organisation,
+    Email: values.email,
+    Phone: values.contactNumber,
+    Workshop: values.hearAboutUs,
+    Additionalcomments: values.comments,
+    CurrentOccupation: values.currentStatus,
+  });
   const handleRegisterClick = (event: typeof events[0]) => {
     setSelectedEvent(event);
     setIsRegistrationOpen(true);
   };
 
-  const onSubmit = (data: RegistrationFormData) => {
+  const onSubmit = async(data: RegistrationFormData) => {
     console.log("Registration submitted:", data);
+    const payload = mapRegistrationFormToPayload(data, selectedEvent?.ID); // example eventId
+
+    try {
+      const response = await addEvent(payload)
+  console.log(response)
+      if (response =='Added') {
+        setShowThankYou(true);
+      }
+  
+     
+    } catch (error) {
+      console.error('Registration API Error:', error);
+    }
+   finally{
     setIsRegistrationOpen(false);
-    setShowThankYou(true);
+   
     form.reset();
+   }
   };
 
   const closeThankYou = () => {
@@ -265,9 +261,10 @@ const EventsCalendar = () => {
           </motion.div>
 
           <div className="grid gap-8">
-            {events.map((event, index) => (
+            {events
+  .filter(event => event?.EventTitle).map((event, index) => (
               <motion.div
-                key={event.id}
+                key={event.ID}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -278,55 +275,31 @@ const EventsCalendar = () => {
                   {/* Event Image */}
                   <div className="relative w-full lg:w-[400px] h-[200px] lg:h-auto overflow-hidden">
                     <img
-                      src={event.image}
-                      alt={event.title}
+                      src={event.CoverimageName}
+                      alt={event.EventTitle}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                    <div className="absolute top-4 left-4">
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary text-primary-foreground text-sm font-medium">
-                        <Tag className="w-3.5 h-3.5" />
-                        {event.category}
-                      </span>
-                    </div>
+                  
                   </div>
 
                   {/* Event Details */}
                   <div className="flex-1 p-6 lg:p-8">
-                    <Link to={`/events/${event.id}`}>
+                    <Link to={`/events/${event.ID}`}>
                       <h3 className="text-xl md:text-2xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors cursor-pointer">
-                        {event.title}
+                        {event.EventTitle}
                       </h3>
                     </Link>
                     <p className="text-muted-foreground mb-4 line-clamp-2">
-                      {event.description}
+                      {event.ShortDescription}
                     </p>
 
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <Calendar className="w-4 h-4 text-primary" />
-                        <span>{event.date}{event.endDate ? ` - ${event.endDate}` : ""}</span>
+                        <span>{event.EventDate}</span>
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <Clock className="w-4 h-4 text-primary" />
-                        <span>{event.time}</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <MapPin className="w-4 h-4 text-primary" />
-                        <span className="truncate">{event.location}</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <Users className="w-4 h-4 text-accent" />
-                        <span>{event.level}</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <Globe className="w-4 h-4 text-accent" />
-                        <span>{event.mode}</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-sm font-semibold text-accent">
-                        <span className="w-4 h-4 flex items-center justify-center text-xs">💰</span>
-                        <span>{event.cost}</span>
-                      </div>
+                      
+                     
                     </div>
 
                     <div className="flex gap-3">
@@ -334,10 +307,10 @@ const EventsCalendar = () => {
                         onClick={() => handleRegisterClick(event)}
                         className="btn-primary group/btn"
                       >
-                        Register for Event
+                        Register for Event 
                         <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover/btn:translate-x-1" />
                       </Button>
-                      <Link to={`/events/${event.id}`}>
+                      <Link to={`/events/${event.ID}`}>
                         <Button variant="outline" className="border-border hover:border-primary/30">
                           View Details
                         </Button>
@@ -360,7 +333,7 @@ const EventsCalendar = () => {
             </DialogTitle>
             {selectedEvent && (
               <p className="text-sm text-muted-foreground mt-1">
-                {selectedEvent.title}
+                {selectedEvent.EventTitle}
               </p>
             )}
           </DialogHeader>

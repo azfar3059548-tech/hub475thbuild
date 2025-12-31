@@ -55,6 +55,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { addStartup } from '@/services/startupApi';
 
 const formSchema = z.object({
   // Basic Information
@@ -195,6 +196,32 @@ export default function Apply() {
     setter(null);
   };
 
+  const mapFormToPayload = (values: FormValues) => ({
+    StartUpName: values.startupName,
+    ContactPerson: values.contactPerson,
+    Email: values.email,
+    PhoneNo: values.phone,
+    WebsiteUrl: values.website,
+    Description: values.businessModel,
+    StageofStartup: values.startupStage,
+    DateofEstablishment: values.dateEstablished,
+    NumberofFounders: values.numberOfFounders,
+    NumberofEmployees: values.numberOfEmployees,
+    CurrentFundingStage: values.fundingStage,
+    AmountofFunding: values.fundingRequired,
+    AnnualRevenue: values.annualRevenue,
+    Summary: values.financialSummary,
+    FundingAttachments: '', // if you add later
+    DescriptionofProduct: values.productDescription,
+    UniqueValue: values.valueProposition,
+    KeyCompetitors: values.keyCompetitors,
+    CurrentCustomer: values.customerBase,
+    MarketDescription: values.targetMarket,
+    PreviousAccelerator: values.acceleratorExperience,
+    PitchDeckAttachments: '', // if you add later
+    GoalsforJoining: values.goals,
+    DeclarationofInformation: values.termsAccepted ? 'Yes' : 'No',
+  });
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -265,12 +292,25 @@ export default function Apply() {
   };
 
   const onSubmit = async (data: FormValues) => {
-    setIsSubmitting(true);
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    console.log('Form submitted:', data);
-    setIsSubmitting(false);
-    setShowSuccess(true);
+    
+    const payload = mapFormToPayload(data);
+
+    try {
+      setIsSubmitting(true);
+      const response = await addStartup(payload);
+      console.log("response of startup api",response)
+    } catch (error) {
+      console.error('API Error:', error);
+    }
+
+    finally {
+      setIsSubmitting(false);
+      setShowSuccess(true);
+    }
+    
+   
+  
+  
   };
 
   const StepIndicator = () => (

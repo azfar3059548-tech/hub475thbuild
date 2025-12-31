@@ -13,6 +13,7 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { addMemberShip } from '@/services/memberShipApi';
 
 // Membership packages data
 const packages = [
@@ -179,6 +180,18 @@ export default function Membership() {
     },
   });
 
+  const mapMembershipFormToPayload = (values: MembershipFormData) => ({
+    ID: 0, // backend usually auto-handles this
+    Name: values.fullName,
+    Email: values.email,
+    ContactNo: values.phone,
+    Membership: values.membershipType, // or combine with memberType if needed
+    Notes: values.hearAboutUs || values.designation,
+    EntryDate: new Date().toISOString(),
+    Status: true,
+    OrganizationName: values.organisation,
+  });
+  
   useEffect(() => {
     if (selectedPackage) {
       form.setValue('membershipType', selectedPackage.id as any);
@@ -190,11 +203,26 @@ export default function Membership() {
     setIsModalOpen(true);
   };
 
-  const onSubmit = (data: MembershipFormData) => {
-    console.log('Membership form submitted:', data);
+  const onSubmit = async(data: MembershipFormData) => {
+   
+
+    const payload = mapMembershipFormToPayload(data);
+    console.log("MEMBER SHIP PAYLOAD",payload)
+    try {
+      const response = await addMemberShip(payload);
+      console.log('Membership response:', response);
+      if(response=='Added')
+      {
+        setShowThankYou(true);
+        form.reset();
+      }
+    } catch (error) {
+      console.error('Membership API Error:', error);
+    }
+
     setIsModalOpen(false);
-    setShowThankYou(true);
-    form.reset();
+  
+
   };
 
   const slideNext = () => {

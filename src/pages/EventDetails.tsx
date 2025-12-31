@@ -16,7 +16,7 @@ import enevt5 from '@/assets/event5.jpeg';
 import enevt6 from '@/assets/events12.jpeg';
 import enevt7 from '@/assets/Application Process-1st.png';
 import enevt8 from '@/assets/Invest-in-incubated-Startups.png';
-
+import {addEvent} from '../services/eventApi'
 import {
   Select,
   SelectContent,
@@ -201,11 +201,40 @@ const EventDetails = () => {
     },
   });
 
-  const onSubmit = (data: RegistrationFormData) => {
+  const mapRegistrationFormToPayload = (
+    values: RegistrationFormData,
+    eventId: number
+  ) => ({
+    Name: values.fullName,
+    eventid: eventId,
+    Organization: values.organisation,
+    Email: values.email,
+    Phone: values.contactNumber,
+    Workshop: values.hearAboutUs,
+    Additionalcomments: values.comments,
+    CurrentOccupation: values.currentStatus,
+  });
+  
+  const onSubmit = async(data: RegistrationFormData) => {
     console.log("Registration submitted:", data);
+    const payload = mapRegistrationFormToPayload(data, 1); // example eventId
+
+    try {
+      const response = await addEvent(payload)
+  console.log(response)
+      if (response =='Added') {
+        setShowThankYou(true);
+      }
+  
+     
+    } catch (error) {
+      console.error('Registration API Error:', error);
+    }
+   finally{
     setIsRegistrationOpen(false);
-    setShowThankYou(true);
+   
     form.reset();
+   }
   };
 
   const closeThankYou = () => {
