@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { getBlogsList } from "@/services/blogApi";
 
 const blogPosts = [
   {
@@ -90,7 +91,18 @@ const Blog = () => {
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
-
+  const [blogs,setBlogs] = useState([]);
+  useEffect(()=>{
+    const callBlogs = async()=>{
+      const res = await getBlogsList();
+      if(!!res.length)
+      {
+        setBlogs(res)
+      }
+    }
+callBlogs()
+  },[])
+  console.log("blogsss",blogs)
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => setIsVisible(entry.isIntersecting),
@@ -253,59 +265,38 @@ const Blog = () => {
                 transition={{ duration: 0.4 }}
                 className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
               >
-                {filteredPosts.map((post, index) => (
+                {blogs.map((post, index) => (
                   <motion.div
-                    key={post.id}
+                    key={post.Id}
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                   >
-                    <Link to={`/blog/${post.id}`}>
+                    <Link to={`/blog/${post.Id}`}>
                       <div
                         className="group relative h-full rounded-2xl overflow-hidden bg-card border border-border/50 hover:border-primary/30 transition-all duration-500 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-2"
-                        onMouseEnter={() => setHoveredCard(post.id)}
+                        onMouseEnter={() => setHoveredCard(post.Id)}
                         onMouseLeave={() => setHoveredCard(null)}
                       >
                         {/* Gradient Overlay */}
-                        <div className={`absolute inset-0 bg-gradient-to-br ${post.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
+                        {/* <div className={`absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-5 transition-opacity duration-500`} /> */}
                         
                         {/* Image Area */}
-                        <div className="relative aspect-[16/10] bg-gradient-to-br from-muted to-muted/50 overflow-hidden">
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <post.icon className={`w-16 h-16 transition-all duration-500 ${
-                              hoveredCard === post.id ? "text-primary scale-110" : "text-muted-foreground/30"
-                            }`} />
-                          </div>
-                          <Badge 
-                            variant="outline" 
-                            className="absolute top-4 left-4 bg-background/80 backdrop-blur-sm border-border/50"
-                          >
-                            {post.category}
-                          </Badge>
-                          
-                          {/* Shine Effect */}
-                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                        </div>
+                       
 
                         {/* Content */}
                         <div className="p-6">
                           <h3 className="text-lg md:text-xl font-bold text-foreground mb-3 line-clamp-2 group-hover:text-primary transition-colors">
-                            {post.title}
+                            {post.Title}
                           </h3>
                           <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
-                            {post.excerpt}
+                            {post.BlogDetails}
+                          </p>
+                          <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
+                            {post.EntryDate}
                           </p>
                           
-                          <div className="flex items-center justify-between text-xs text-muted-foreground pt-4 border-t border-border/50">
-                            <span className="flex items-center gap-1.5">
-                              <User className="w-3.5 h-3.5" />
-                              {post.author}
-                            </span>
-                            <span className="flex items-center gap-1.5">
-                              <Clock className="w-3.5 h-3.5" />
-                              {post.readTime}
-                            </span>
-                          </div>
+                        
                         </div>
 
                         {/* Hover Arrow */}
