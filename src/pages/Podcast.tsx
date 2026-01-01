@@ -5,7 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 const API =
-  "https://hub47webservices.raideit.net/api/Hub47/GetPodcast?id=1";
+  "https://hub47webservices.raideit.net/api/Hub47/GetPodcast?id=0";
 
 export default function PodcastPage() {
   const [podcasts, setPodcasts] = useState<any[]>([]);
@@ -40,10 +40,16 @@ export default function PodcastPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
               >
-                <div
-                  className="aspect-video rounded-xl overflow-hidden"
-                  dangerouslySetInnerHTML={{ __html: p.EmbedCode }}
-                />
+                 {/* Media */}
+    {p.EmbedCode?.includes("youtube") ? (
+      <div
+        dangerouslySetInnerHTML={{ __html: p.EmbedCode }}
+      />
+    ) : (
+      <audio controls>
+        <source src="podcast3.mp3" type="audio/mpeg" />
+      </audio>
+    )}
 
                 <h3 className="font-medium mt-3">{p.Title}</h3>
                 <p className="text-gray-500 text-xs mt-1">
